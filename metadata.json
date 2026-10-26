@@ -1,0 +1,6 @@
+{
+  "name": "PrivacyGuard IPv6",
+  "description": "Privacy-Aware IPv6 IoT Security Monitoring System detecting Rogue RA and abnormal NDP events with rotating pseudonyms and short-lived sessions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

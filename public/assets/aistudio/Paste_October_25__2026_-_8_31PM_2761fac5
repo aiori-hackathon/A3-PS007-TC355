@@ -1,0 +1,1571 @@
+PROJECT TITLE:
+PrivacyGuard IPv6 — Privacy-Aware IPv6 IoT Security Monitoring System
+
+HACKATHON:
+AIORI 3 Hackathon
+
+PROBLEM STATEMENT:
+PS-007: Privacy-Aware IPv6 IoT Security Monitoring
+
+========================================================
+1. PROJECT OBJECTIVE
+========================================================
+
+Build a complete, functional, full-stack cybersecurity
+application called "PrivacyGuard IPv6".
+
+The project must monitor IPv6 local area network (LAN)
+activity, detect suspicious network events, protect device
+privacy using temporary pseudonyms and short-lived
+authenticated sessions, and provide a modern security
+monitoring dashboard.
+
+The project must satisfy the following objectives:
+
+1. Monitor IPv6 network activity.
+2. Simulate five IPv6-enabled IoT devices.
+3. Support rotating temporary IPv6 addresses.
+4. Detect unauthorised Router Advertisement (RA) messages.
+5. Detect abnormal Neighbour Discovery Protocol (NDP)
+   message rates.
+6. Implement short-lived authenticated monitoring sessions.
+7. Generate temporary local device pseudonyms.
+8. Automatically expire pseudonyms according to a
+   configurable lifetime.
+9. Prevent cross-tenant device correlation.
+10. Calculate attack detection and false-positive metrics.
+11. Display security alerts and analytics through a
+    professional dashboard.
+12. Provide reproducible automated tests and documented
+    results.
+
+IMPORTANT:
+The initial version must work completely using software
+simulation. No physical IoT devices or specialised hardware
+must be required.
+
+The application must not depend on paid APIs or cloud
+services to run its core functionality.
+
+Do not create only a UI prototype. Implement working
+frontend components, backend APIs, detection logic, privacy
+mechanisms, test scenarios, and persistent or appropriately
+managed application state.
+
+========================================================
+2. TECHNOLOGY STACK
+========================================================
+
+FRONTEND:
+- React
+- Vite
+- JavaScript
+- HTML5
+- CSS3
+- Recharts for charts
+- Lucide React for icons
+- Fetch API for backend communication
+
+BACKEND:
+- Python
+- Flask
+- Flask-CORS
+- SQLite for lightweight persistent storage
+- Python standard library for cryptographic utilities
+- Pytest for automated testing
+
+NETWORK SIMULATION:
+- Python-based IPv6 network simulator
+- Simulated ICMPv6 Router Advertisement events
+- Simulated Neighbour Discovery Protocol events
+- Simulated device address rotation
+- Configurable normal and abnormal traffic rates
+
+OPTIONAL ADVANCED PACKAGES:
+- Scapy for real IPv6 packet inspection in a controlled
+  test environment
+- Scapy must remain optional so the application works
+  without it.
+
+Do not require Docker, Kubernetes, paid APIs, or external
+cloud infrastructure for the basic implementation.
+
+Use compatible dependency versions and include all required
+dependencies in the appropriate files.
+
+========================================================
+3. REQUIRED PROJECT FOLDER STRUCTURE
+========================================================
+
+Generate the complete project using this structure:
+
+PrivacyGuard-IPv6/
+|
+|-- README.md
+|-- .gitignore
+|-- .env.example
+|-- requirements.txt
+|-- package.json
+|
+|-- backend/
+|   |
+|   |-- app.py
+|   |-- config.py
+|   |-- database.py
+|   |-- requirements.txt
+|   |
+|   |-- models/
+|   |   |-- __init__.py
+|   |   |-- device.py
+|   |   |-- network_event.py
+|   |   |-- security_alert.py
+|   |   |-- monitoring_session.py
+|   |
+|   |-- services/
+|   |   |-- __init__.py
+|   |   |-- network_simulator.py
+|   |   |-- ipv6_address_service.py
+|   |   |-- pseudonym_service.py
+|   |   |-- session_service.py
+|   |   |-- tenant_service.py
+|   |   |-- ra_detector.py
+|   |   |-- ndp_detector.py
+|   |   |-- event_processor.py
+|   |   |-- analytics_service.py
+|   |   |-- evaluation_service.py
+|   |
+|   |-- routes/
+|   |   |-- __init__.py
+|   |   |-- dashboard_routes.py
+|   |   |-- device_routes.py
+|   |   |-- monitoring_routes.py
+|   |   |-- simulation_routes.py
+|   |   |-- alert_routes.py
+|   |   |-- privacy_routes.py
+|   |   |-- analytics_routes.py
+|   |   |-- evaluation_routes.py
+|   |
+|   |-- tests/
+|   |   |-- __init__.py
+|   |   |-- test_devices.py
+|   |   |-- test_rogue_ra.py
+|   |   |-- test_ndp_anomaly.py
+|   |   |-- test_pseudonyms.py
+|   |   |-- test_sessions.py
+|   |   |-- test_tenant_isolation.py
+|   |   |-- test_analytics.py
+|   |   |-- test_evaluation.py
+|   |
+|   |-- data/
+|       |-- .gitkeep
+|
+|-- frontend/
+|   |
+|   |-- package.json
+|   |-- index.html
+|   |-- vite.config.js
+|   |
+|   |-- public/
+|   |   |-- favicon.svg
+|   |
+|   |-- src/
+|       |
+|       |-- main.jsx
+|       |-- App.jsx
+|       |-- index.css
+|       |-- App.css
+|       |
+|       |-- components/
+|       |   |-- Sidebar.jsx
+|       |   |-- Header.jsx
+|       |   |-- StatCard.jsx
+|       |   |-- DeviceTable.jsx
+|       |   |-- AlertTable.jsx
+|       |   |-- TrafficChart.jsx
+|       |   |-- DetectionChart.jsx
+|       |   |-- PrivacyPanel.jsx
+|       |   |-- SessionStatus.jsx
+|       |   |-- TenantIsolationPanel.jsx
+|       |   |-- LoadingSpinner.jsx
+|       |   |-- ErrorMessage.jsx
+|       |   |-- EmptyState.jsx
+|       |
+|       |-- pages/
+|       |   |-- Dashboard.jsx
+|       |   |-- Devices.jsx
+|       |   |-- Monitoring.jsx
+|       |   |-- SecurityAlerts.jsx
+|       |   |-- PrivacyCenter.jsx
+|       |   |-- Analytics.jsx
+|       |   |-- Evaluation.jsx
+|       |   |-- Settings.jsx
+|       |
+|       |-- services/
+|       |   |-- api.js
+|       |   |-- dashboardService.js
+|       |
+|       |-- utils/
+|           |-- formatters.js
+|           |-- constants.js
+|
+|-- docs/
+|   |-- architecture.md
+|   |-- API_DOCUMENTATION.md
+|   |-- TESTING_GUIDE.md
+|   |-- DEMONSTRATION_GUIDE.md
+|   |-- LIMITATIONS.md
+|
+|-- scripts/
+    |-- seed_demo_data.py
+    |-- run_backend.py
+    |-- run_evaluation.py
+
+If you decide to change the structure, explain why and
+provide every file required by the final implementation.
+
+Do not leave essential files empty or replace their
+contents with comments such as "implement this later".
+
+========================================================
+4. FRONTEND DESIGN REQUIREMENTS
+========================================================
+
+Create a professional cybersecurity dashboard with a
+modern dark theme.
+
+DESIGN STYLE:
+- Dark navy background
+- Blue and cyan accent colours
+- Teal highlights for privacy features
+- Red for critical security alerts
+- Orange or amber for warnings
+- Green for normal status
+- Clear typography
+- Professional spacing
+- Rounded cards
+- Subtle shadows
+- Responsive layout
+- Smooth but restrained transitions
+- Consistent icons
+- Accessible colour contrast
+
+The design should resemble a modern Security Operations
+Center (SOC) dashboard.
+
+The application must work on desktop and laptop screens
+and adapt to smaller screens.
+
+Do not create a static dashboard containing hardcoded
+numbers presented as real results.
+
+Use actual API responses for operational metrics.
+
+When no monitoring has occurred, display appropriate
+empty states or zero values.
+
+All buttons, navigation items, forms, filters and charts
+must function.
+
+========================================================
+5. DASHBOARD PAGE
+========================================================
+
+Create a dashboard with the following elements:
+
+A. TOP HEADER
+
+Display:
+- PrivacyGuard IPv6 logo or text-based logo
+- Application name
+- Monitoring status
+- Current date and time
+- Refresh control
+- Connection status for the Flask backend
+
+B. SIDEBAR NAVIGATION
+
+Include:
+1. Dashboard
+2. Devices
+3. Live Monitoring
+4. Security Alerts
+5. Privacy Center
+6. Analytics
+7. Evaluation
+8. Settings
+
+Each item must navigate to the corresponding page.
+
+C. SUMMARY CARDS
+
+Display:
+- Total simulated devices
+- Active monitoring sessions
+- Total events processed
+- Security alerts
+- Rogue RA detections
+- NDP anomaly detections
+- Current pseudonyms
+- Expired pseudonyms
+
+Populate these cards from the backend.
+
+D. CHARTS
+
+Include:
+- Network events over time
+- Normal versus suspicious traffic
+- Alerts by severity
+- Rogue RA versus NDP detections
+- Detection rate
+- False-positive rate
+
+Charts must use actual evaluation or monitoring data.
+
+E. RECENT SECURITY EVENTS
+
+Display:
+- Timestamp
+- Temporary pseudonym
+- Event type
+- Severity
+- Detection reason
+- Tenant identifier
+- Event status
+
+Never display unnecessary permanent device identifiers.
+
+========================================================
+6. FIVE-DEVICE IPV6 SIMULATOR
+========================================================
+
+Create five emulated devices.
+
+Example device roles:
+
+1. Temperature Sensor
+2. Smart Lighting Controller
+3. Environmental Sensor
+4. Smart Gateway
+5. Security Sensor
+
+Assign each device:
+- A simulated IPv6 address
+- A device type
+- A tenant
+- A connection status
+- A local temporary pseudonym
+- A short-lived session
+- A normal traffic profile
+
+Use documentation IPv6 prefixes, such as 2001:db8::/32,
+for simulated addresses.
+
+Do not assume that a device is malicious merely because
+its IPv6 address changes.
+
+Implement a feature that rotates temporary IPv6 addresses.
+
+The simulator should support:
+- Initial device creation
+- Device status changes
+- Address rotation
+- Normal RA events
+- Normal NDP events
+- Event timestamps
+- Event generation at configurable intervals
+- Start monitoring
+- Stop monitoring
+- Reset demonstration
+
+Generate reproducible test scenarios when a random seed
+is supplied.
+
+The application must be able to initialise all five
+devices automatically.
+
+========================================================
+7. ROGUE ROUTER ADVERTISEMENT DETECTION
+========================================================
+
+Implement a dedicated Router Advertisement detector.
+
+IPv6 Router Advertisements are legitimate ICMPv6 messages.
+Therefore, the detector must not classify every RA as
+malicious.
+
+For the simulated environment, configure an explicit list
+of trusted router identities or simulated router sources.
+
+For each RA event, process:
+- Event timestamp
+- Source address
+- Router identity or source identifier
+- Advertised IPv6 prefix
+- Router lifetime
+- Tenant
+- Session validity
+- Authorisation status
+
+DETECTION RULES:
+
+1. An authorised router advertising an allowed prefix
+   should be treated as normal.
+
+2. An unauthorised router sending an RA should generate
+   a suspicious-event alert.
+
+3. An unexpected advertised prefix should be flagged
+   according to the configured policy.
+
+4. An invalid or expired monitoring session must not be
+   treated as authenticated evidence.
+
+5. Address rotation alone must not generate a rogue RA
+   alert.
+
+Each alert should include:
+- Unique alert ID
+- Timestamp
+- Temporary pseudonym where appropriate
+- Event type
+- Severity
+- Detection reason
+- Tenant
+- Relevant non-sensitive event details
+
+Use a clear severity policy.
+
+The default simulation should generate both legitimate
+and unauthorised RA events.
+
+Add a dashboard button named:
+
+"Simulate Rogue RA"
+
+When clicked:
+1. Generate a simulated RA event from an unauthorised
+   router source.
+2. Send the event to the Flask backend.
+3. Process the event through the RA detector.
+4. Create an alert when the policy indicates a violation.
+5. Update the dashboard.
+6. Display a success notification indicating that the
+   simulation ran and whether an alert was generated.
+
+Do not claim to block an attacker unless a real blocking
+mechanism has actually been implemented.
+
+========================================================
+8. ABNORMAL NDP RATE DETECTION
+========================================================
+
+Implement a dedicated Neighbour Discovery Protocol
+anomaly detector.
+
+NDP is used by IPv6 devices for neighbour discovery,
+address resolution and reachability detection.
+
+The system should analyse simulated NDP event rates.
+
+Track relevant simulated message types, including:
+- Neighbor Solicitation
+- Neighbor Advertisement
+- Router Solicitation
+- Router Advertisement
+
+Treat RA authorisation as a separate detection rule.
+
+Implement configurable sliding time windows.
+
+For example, use a configurable window of 10 seconds and
+a configurable threshold of 50 NDP messages per source
+within that window.
+
+These are demonstration defaults, not universal attack
+thresholds.
+
+The detector must:
+1. Count events by source pseudonym or session.
+2. Calculate the event rate within the time window.
+3. Compare the rate against the configured threshold.
+4. Generate an alert when the threshold is exceeded.
+5. Avoid treating ordinary address rotation as an attack.
+6. Record the detection reason.
+7. Avoid combining records from different tenants.
+8. Permit threshold configuration through the backend.
+
+Add a dashboard button named:
+
+"Simulate NDP Anomaly"
+
+When clicked:
+1. Generate a burst of simulated NDP events.
+2. Submit the events to the backend.
+3. Run the NDP anomaly detector.
+4. Generate an alert when the configured rule is met.
+5. Update the alert table and analytics.
+6. Show a notification describing the result.
+
+Also provide a normal-traffic simulation so that the
+evaluation can measure false positives.
+
+========================================================
+9. PRIVACY-AWARE PSEUDONYM SERVICE
+========================================================
+
+Implement a privacy service that assigns temporary local
+pseudonyms to monitoring subjects.
+
+Examples:
+DEV-A81F
+DEV-C42B
+DEV-E93D
+
+These values are examples only. Generate identifiers
+programmatically.
+
+Requirements:
+
+1. Do not use a permanent device identifier as the
+   dashboard's primary identity.
+
+2. Generate unpredictable pseudonyms using suitable
+   cryptographic randomness.
+
+3. Scope pseudonyms to a tenant and their intended
+   monitoring lifetime.
+
+4. Give pseudonyms a configurable expiration time.
+
+5. Record pseudonym creation and expiration timestamps.
+
+6. Reject expired pseudonyms for new authenticated events.
+
+7. Do not silently renew an expired pseudonym.
+
+8. Issue a new pseudonym when a new permitted session
+   is established.
+
+9. Prevent an expired pseudonym from being accepted as
+   an active identity.
+
+10. Avoid storing a permanent reverse mapping between
+    pseudonyms and real device identities.
+
+11. Do not expose secret keys or sensitive mappings
+    through the frontend or API responses.
+
+12. Do not use IP addresses as the sole long-term
+    device identity.
+
+13. Ensure that normal temporary IPv6 address rotation
+    does not automatically trigger an attack alert.
+
+14. Provide a configurable pseudonym lifetime.
+
+15. Provide an operation to expire or revoke a pseudonym.
+
+16. Show privacy status in the Privacy Center.
+
+The system should distinguish between:
+- Pseudonym expiration
+- Session expiration
+- Device disconnection
+- Security alert generation
+
+Do not confuse these states.
+
+Implement automated tests confirming that expired
+pseudonyms cannot be used for new events.
+
+Avoid claiming complete anonymity. Explain that network
+metadata may still permit correlation.
+
+========================================================
+10. SHORT-LIVED AUTHENTICATED SESSIONS
+========================================================
+
+Implement a session service for simulated monitoring
+event sources.
+
+Each session should include:
+- Random session identifier
+- Tenant scope
+- Associated temporary pseudonym
+- Creation timestamp
+- Expiration timestamp
+- Active or expired status
+
+Use cryptographically secure random tokens.
+
+Store only a secure hash of bearer tokens where practical.
+
+The backend must validate:
+- Session existence
+- Token validity
+- Session expiration
+- Tenant scope
+- Pseudonym validity
+- Permission to submit the requested event
+
+Do not accept a session simply because a client supplies
+an arbitrary session ID.
+
+Do not expose bearer tokens in dashboard tables or logs.
+
+Use a configurable session lifetime.
+
+Implement:
+- Session creation
+- Session validation
+- Session expiration
+- Session revocation
+- Active session listing without secret tokens
+
+Expired sessions must be rejected.
+
+For the hackathon demonstration, provide a clearly
+documented method to create and use simulated sessions.
+
+Do not falsely claim that a demo token provides production
+authentication or identity verification.
+
+========================================================
+11. MULTI-TENANT ISOLATION
+========================================================
+
+Implement tenant-aware data separation.
+
+Create at least two simulated tenants:
+
+- Tenant Alpha
+- Tenant Beta
+
+Each tenant must have its own:
+- Device records
+- Local pseudonyms
+- Monitoring sessions
+- Network events
+- Security alerts
+- Analytics
+
+Requirements:
+
+1. Every event must have an explicit tenant scope.
+
+2. Every session must belong to a tenant.
+
+3. Every pseudonym must be scoped to its tenant.
+
+4. Tenant Alpha must not access Tenant Beta records.
+
+5. Tenant Beta must not access Tenant Alpha records.
+
+6. Rate counters must be tenant-scoped.
+
+7. Alert queries must filter by tenant.
+
+8. Analytics must not accidentally combine tenants.
+
+9. Expiration and revocation operations must respect
+   tenant boundaries.
+
+10. Add automated cross-tenant isolation tests.
+
+For a test, create similar local pseudonym labels in
+separate tenants and demonstrate that one tenant cannot
+retrieve or correlate the other tenant's records through
+the application's identifiers and APIs.
+
+Do not claim that identical labels are impossible or that
+all external traffic correlation has been eliminated.
+
+The goal is to demonstrate application-level isolation
+and avoid shared persistent device identifiers.
+
+========================================================
+12. EVENT COLLECTION AND PROCESSING
+========================================================
+
+Create a central event-processing service.
+
+Each event should contain suitable fields, including:
+- Event ID
+- Timestamp
+- Tenant ID
+- Event type
+- Source pseudonym
+- Source IPv6 address when needed
+- Session reference
+- Event-specific attributes
+- Processing status
+
+Support event types such as:
+- DEVICE_CONNECTED
+- DEVICE_DISCONNECTED
+- IPV6_ADDRESS_ROTATED
+- NORMAL_RA
+- ROGUE_RA
+- NDP_MESSAGE
+- NDP_RATE_ANOMALY
+- SESSION_EXPIRED
+- PSEUDONYM_EXPIRED
+
+Validate incoming data.
+
+Use consistent timestamps, preferably stored in UTC and
+displayed in local time in the frontend.
+
+Avoid logging authentication secrets.
+
+Do not store unnecessary identifying information.
+
+The event processor must:
+1. Validate the request.
+2. Validate tenant scope.
+3. Validate session and pseudonym.
+4. Apply the relevant detection rule.
+5. Record the event using an appropriate retention policy.
+6. Create an alert when required.
+7. Return a useful API response.
+
+Use a configurable event-retention policy.
+
+Explain which event data is retained and for how long.
+
+========================================================
+13. SECURITY ALERT MANAGEMENT
+========================================================
+
+Implement an alert-management page.
+
+Display:
+- Alert ID
+- Timestamp
+- Tenant
+- Pseudonym
+- Alert category
+- Severity
+- Detection reason
+- Acknowledgement status
+
+Severity levels:
+- Critical
+- High
+- Medium
+- Low
+- Informational
+
+Implement:
+- Alert filtering by severity
+- Alert filtering by category
+- Alert filtering by tenant
+- Alert filtering by time
+- Alert acknowledgement
+- Alert history
+- Alert counts by category
+
+Alert acknowledgement must not delete or modify the
+original event evidence.
+
+Use a suitable audit record for acknowledgement actions.
+
+Provide useful empty states when no alerts exist.
+
+========================================================
+14. ANALYTICS AND EVALUATION METRICS
+========================================================
+
+Create an evaluation service that calculates metrics
+from actual labelled test events.
+
+Implement:
+
+A. TRUE POSITIVES (TP)
+Attack cases correctly detected.
+
+B. FALSE POSITIVES (FP)
+Normal cases incorrectly flagged as attacks.
+
+C. TRUE NEGATIVES (TN)
+Normal cases correctly classified as normal.
+
+D. FALSE NEGATIVES (FN)
+Attack cases that were not detected.
+
+E. DETECTION RATE / RECALL
+
+Detection Rate = TP / (TP + FN) * 100
+
+If the denominator is zero, return a safe, documented
+result rather than dividing by zero.
+
+F. FALSE-POSITIVE RATE
+
+False-Positive Rate = FP / (FP + TN) * 100
+
+Handle a zero denominator safely.
+
+G. PRECISION
+
+Precision = TP / (TP + FP) * 100
+
+Handle a zero denominator safely.
+
+H. F1 SCORE
+
+F1 = 2 * Precision * Recall /
+     (Precision + Recall)
+
+Implement consistent handling of undefined cases.
+
+I. PRIVACY METRICS
+
+Calculate:
+- Number of pseudonyms created
+- Number of pseudonyms expired
+- Number of rejected expired-pseudonym events
+- Number of expired sessions rejected
+- Number of cross-tenant access attempts rejected
+
+Clearly distinguish attack-detection metrics from
+privacy-control metrics.
+
+Do not invent performance results.
+
+If there are no completed test cases, show that the
+metrics are unavailable or not yet measured.
+
+Add a button:
+
+"Run Evaluation"
+
+When clicked:
+1. Execute a predefined set of labelled normal events.
+2. Execute labelled rogue RA attack cases.
+3. Execute labelled abnormal NDP cases.
+4. Include normal address rotation scenarios.
+5. Include legitimate router advertisements.
+6. Include pseudonym-expiration scenarios.
+7. Include session-expiration scenarios.
+8. Include cross-tenant access attempts.
+9. Calculate the evaluation metrics.
+10. Display the measured results.
+11. Store a reproducible summary of the test run.
+
+The evaluation process must not silently replace measured
+results with assumed values.
+
+Label test cases clearly and make them reproducible.
+
+Use synthetic test data and document its limitations.
+
+========================================================
+15. REQUIRED FRONTEND PAGES
+========================================================
+
+PAGE 1: DASHBOARD
+
+Show:
+- Device summary
+- Event counts
+- Active sessions
+- Security alerts
+- RA detections
+- NDP anomalies
+- Traffic charts
+- Recent alerts
+- Monitoring controls
+
+PAGE 2: DEVICES
+
+Show:
+- Five simulated devices
+- Temporary IPv6 addresses
+- Local pseudonyms
+- Device type
+- Tenant
+- Connection status
+- Last event time
+
+Add controls to:
+- Rotate a temporary address
+- Connect a simulated device
+- Disconnect a simulated device
+- View recent device events
+
+Address rotation must not automatically generate
+a security alert.
+
+PAGE 3: LIVE MONITORING
+
+Show:
+- Monitoring state
+- Event count
+- Normal traffic count
+- Suspicious traffic count
+- Latest events
+- Configurable NDP threshold
+- Configurable NDP time window
+
+Add buttons:
+- Start Monitoring
+- Stop Monitoring
+- Simulate Rogue RA
+- Simulate NDP Anomaly
+- Generate Normal Traffic
+- Rotate Temporary Address
+- Reset Demo
+
+PAGE 4: SECURITY ALERTS
+
+Show:
+- Alert table
+- Severity indicators
+- Detection reasons
+- Event timestamps
+- Tenant filters
+- Alert acknowledgement
+
+PAGE 5: PRIVACY CENTER
+
+Show:
+- Active pseudonyms
+- Expired pseudonyms
+- Pseudonym expiration timestamps
+- Active sessions
+- Expired sessions
+- Rejected expired-token attempts
+- Tenant isolation status
+
+Never expose secret session tokens.
+
+PAGE 6: ANALYTICS
+
+Show:
+- Traffic over time
+- Alerts over time
+- RA detection counts
+- NDP anomaly counts
+- Normal versus suspicious events
+- Tenant-scoped metrics
+
+PAGE 7: EVALUATION
+
+Show:
+- TP
+- FP
+- TN
+- FN
+- Detection rate
+- False-positive rate
+- Precision
+- F1 score
+- Privacy test results
+- Test execution timestamp
+
+Add a Run Evaluation button.
+
+PAGE 8: SETTINGS
+
+Provide controls for:
+- NDP threshold
+- NDP time window
+- Pseudonym lifetime
+- Session lifetime
+- Event retention period
+- Simulation speed
+
+Validate all settings on the backend.
+
+Clearly explain that thresholds are configurable
+demonstration values, not universal security standards.
+
+========================================================
+16. REQUIRED FLASK API ENDPOINTS
+========================================================
+
+Implement and document a consistent REST API.
+
+Suggested endpoints:
+
+GENERAL:
+GET /api/health
+GET /api/dashboard
+
+DEVICES:
+GET /api/devices
+GET /api/devices/<device_id>/events
+POST /api/devices/<device_id>/rotate-address
+POST /api/devices/<device_id>/connect
+POST /api/devices/<device_id>/disconnect
+
+MONITORING:
+GET /api/monitoring/status
+POST /api/monitoring/start
+POST /api/monitoring/stop
+
+SIMULATION:
+POST /api/simulation/normal-traffic
+POST /api/simulation/rogue-ra
+POST /api/simulation/ndp-anomaly
+POST /api/simulation/reset
+
+ALERTS:
+GET /api/alerts
+GET /api/alerts/<alert_id>
+POST /api/alerts/<alert_id>/acknowledge
+
+PRIVACY:
+GET /api/privacy/status
+GET /api/privacy/pseudonyms
+GET /api/privacy/sessions
+POST /api/privacy/pseudonyms/expire
+POST /api/privacy/sessions/revoke
+
+ANALYTICS:
+GET /api/analytics/traffic
+GET /api/analytics/alerts
+GET /api/analytics/detection
+
+EVALUATION:
+POST /api/evaluation/run
+GET /api/evaluation/results
+
+SETTINGS:
+GET /api/settings
+PUT /api/settings
+
+Use request validation and consistent JSON responses.
+
+Use appropriate HTTP status codes.
+
+Handle invalid requests, expired sessions, unauthorised
+tenant access, missing records and internal errors.
+
+Do not expose stack traces or secrets to the frontend.
+
+Document which endpoints are intended for the local
+simulation and which require an authenticated session.
+
+Do not expose unrestricted administrative actions in a
+production-facing deployment.
+
+========================================================
+17. DATABASE REQUIREMENTS
+========================================================
+
+Use SQLite for the basic implementation.
+
+Create suitable tables for:
+- Tenants
+- Devices
+- Pseudonyms
+- Monitoring sessions
+- Network events
+- Security alerts
+- Evaluation runs
+- Evaluation cases or results
+- Application settings
+- Alert acknowledgement audit records
+
+Use appropriate primary keys, foreign keys and indexes.
+
+Use database transactions where appropriate.
+
+Ensure that every tenant-scoped query filters by tenant.
+
+Store timestamps consistently in UTC.
+
+Avoid storing plaintext session bearer tokens.
+
+Do not store permanent device-to-pseudonym mappings unless
+strictly required for a documented purpose.
+
+If any mapping is necessary for the simulator, keep it
+local, access-controlled, short-lived and separate from
+ordinary monitoring records.
+
+Use a configurable database location.
+
+Include initialisation and demo-data seeding code.
+
+Make database initialisation repeatable.
+
+Ensure that Reset Demo does not accidentally delete
+unrelated application data.
+
+========================================================
+18. AUTOMATED TEST REQUIREMENTS
+========================================================
+
+Use Pytest.
+
+Implement tests for all major components.
+
+TEST 1: DEVICE INITIALISATION
+Verify that five simulated devices are created.
+
+TEST 2: LEGITIMATE ROUTER ADVERTISEMENT
+Verify that an authorised RA with an allowed prefix
+does not produce a rogue-router alert.
+
+TEST 3: ROGUE ROUTER ADVERTISEMENT
+Verify that an unauthorised RA produces an alert.
+
+TEST 4: ABNORMAL NDP RATE
+Verify that an excessive NDP event rate is detected.
+
+TEST 5: NORMAL NDP RATE
+Verify that normal traffic below the configured threshold
+does not generate an anomaly alert.
+
+TEST 6: TEMPORARY ADDRESS ROTATION
+Verify that legitimate address rotation is accepted
+without automatically generating an attack alert.
+
+TEST 7: PSEUDONYM EXPIRATION
+Verify that an expired pseudonym is rejected for new
+monitoring events.
+
+TEST 8: SESSION EXPIRATION
+Verify that an expired session cannot submit events.
+
+TEST 9: SESSION REVOCATION
+Verify that a revoked session cannot be reused.
+
+TEST 10: TENANT ISOLATION
+Verify that Tenant Alpha cannot access Tenant Beta
+devices, sessions, events, pseudonyms or alerts.
+
+TEST 11: RATE-COUNTER ISOLATION
+Verify that NDP counters from different tenants are
+never combined.
+
+TEST 12: METRIC CALCULATION
+Verify TP, FP, TN, FN, detection rate, false-positive
+rate, precision and F1 score.
+
+TEST 13: ZERO-DENOMINATOR HANDLING
+Verify safe handling when no positive or negative cases
+are available for a metric.
+
+TEST 14: API VALIDATION
+Verify that malformed events and invalid settings are
+rejected.
+
+TEST 15: RESET DEMONSTRATION
+Verify that demo state can be reset safely.
+
+TEST 16: PRIVACY METRICS
+Verify that expiration and rejected-access counters are
+updated correctly.
+
+Use temporary test databases.
+
+Do not require real network privileges for ordinary tests.
+
+The complete test suite must run using:
+
+pytest -q
+
+Provide the expected test command and explain how to
+interpret its output.
+
+Do not claim that tests passed unless they were actually
+executed and passed.
+
+========================================================
+19. OPTIONAL REAL IPV6 PACKET MONITORING
+========================================================
+
+Keep real packet monitoring optional.
+
+The core application must work without Scapy and without
+special network permissions.
+
+If implementing the optional packet-monitoring extension:
+
+1. Use Scapy to inspect IPv6 and ICMPv6 traffic.
+2. Recognise relevant Router Advertisement messages.
+3. Recognise relevant Neighbor Discovery messages.
+4. Feed extracted events into the same detection engine.
+5. Avoid duplicating the detection logic.
+6. Clearly separate live packet events from simulated events.
+7. Explain any required operating-system permissions.
+8. Explain how to select the correct network interface.
+9. Do not execute attacks against external networks.
+10. Do not automatically block network traffic.
+11. Include instructions for an isolated, authorised lab.
+
+Do not assume that capturing packets works on every
+operating system or network adapter.
+
+Provide graceful error messages if packet capture is
+unavailable.
+
+Do not require the user to run the application as an
+administrator unless the optional packet-capture method
+actually requires elevated permissions.
+
+========================================================
+20. ERROR HANDLING AND RELIABILITY
+========================================================
+
+Implement:
+- Backend health checks
+- Frontend loading indicators
+- API request timeouts where appropriate
+- User-friendly error messages
+- Empty states
+- Invalid input handling
+- Database error handling
+- Network connection error handling
+- Session expiration handling
+- Duplicate request protection where appropriate
+
+If the Flask server is stopped, the frontend must show
+a useful connection error rather than crashing.
+
+Do not use hardcoded frontend fallback values that pretend
+to be live backend results.
+
+Use environment variables for configuration.
+
+Include a safe development configuration.
+
+Provide an example environment file without real secrets.
+
+========================================================
+21. README AND DOCUMENTATION
+========================================================
+
+Generate a complete README.md containing:
+
+1. Project title
+2. Hackathon problem statement
+3. Problem description
+4. Project objectives
+5. Features
+6. System architecture
+7. Technology stack
+8. Folder structure
+9. Installation instructions
+10. Backend setup
+11. Frontend setup
+12. Environment configuration
+13. Database initialisation
+14. How to start the application
+15. How to run tests
+16. How to simulate a rogue RA
+17. How to simulate abnormal NDP traffic
+18. How to test address rotation
+19. How to test pseudonym expiration
+20. How to test session expiration
+21. How to demonstrate tenant isolation
+22. How to run evaluation
+23. Explanation of the evaluation metrics
+24. API documentation reference
+25. Security considerations
+26. Privacy considerations
+27. Limitations
+28. Future enhancements
+29. Troubleshooting
+30. Hackathon demonstration workflow
+
+Also generate:
+- Architecture documentation
+- API documentation
+- Testing guide
+- Demonstration guide
+- Limitations document
+
+Provide a clear demonstration sequence suitable for
+a hackathon presentation.
+
+========================================================
+22. WINDOWS INSTALLATION AND EXECUTION
+========================================================
+
+I am developing on a Windows computer.
+
+Provide Windows PowerShell instructions.
+
+The expected development environment is:
+
+- Python 3.11 or another compatible Python version
+- Node.js LTS
+- npm
+- VS Code
+- Git (optional)
+
+Explain how to check installed versions.
+
+Provide commands to create and activate a Python virtual
+environment.
+
+Account for PowerShell execution-policy restrictions
+by offering a suitable alternative that uses the Windows
+Python launcher or direct Python executable commands.
+
+Do not assume that npm.ps1 can always run.
+
+Explain how to install backend dependencies.
+
+Explain how to install frontend dependencies.
+
+Explain how to start the Flask server.
+
+Explain how to start the React development server.
+
+Explain how to access the frontend in a browser.
+
+Explain how to verify the Flask health endpoint.
+
+Explain how to run automated tests.
+
+Explain how to stop both servers.
+
+The basic project must not require Docker.
+
+========================================================
+23. CODE GENERATION RULES
+========================================================
+
+These requirements are extremely important.
+
+1. Generate the complete working project, not just an
+   explanation or architecture proposal.
+
+2. Provide the actual source code for every required file.
+
+3. Do not omit files from the specified folder structure.
+
+4. Do not use placeholders such as:
+   "Add your code here"
+   "Implementation omitted"
+   "Continue similarly"
+   "Write the remaining code yourself"
+
+5. Do not provide pseudocode in place of working code.
+
+6. Ensure frontend API URLs match the Flask routes.
+
+7. Ensure import paths are correct.
+
+8. Ensure package names and dependency files are correct.
+
+9. Ensure database models and SQL queries are consistent.
+
+10. Ensure the backend can start without missing modules.
+
+11. Ensure the frontend can build without missing imports.
+
+12. Ensure all buttons have real functionality.
+
+13. Ensure all charts use appropriate backend data.
+
+14. Ensure all pages are connected through navigation.
+
+15. Ensure the simulator creates reproducible test data.
+
+16. Ensure security detection rules are testable.
+
+17. Ensure pseudonym and session expiration are enforced
+    by the backend, not just hidden in the frontend.
+
+18. Ensure tenant isolation is enforced by the backend.
+
+19. Ensure evaluation metrics are computed from labelled
+    cases rather than fabricated constants.
+
+20. Ensure error responses are consistent.
+
+21. Ensure the application can be reset and run again.
+
+22. Ensure no paid service or API key is required for
+    the core functionality.
+
+23. Ensure no real device hardware is required.
+
+24. Do not silently substitute simulated results for
+    real packet-capture results.
+
+25. Clearly label simulated events and results.
+
+26. Explain all security assumptions and limitations.
+
+27. Use readable, maintainable code with helpful comments.
+
+28. Do not include real passwords, API keys or secrets.
+
+29. Avoid unnecessary complexity that prevents the
+    application from running locally.
+
+30. Verify consistency across the project before declaring
+    the implementation complete.
+
+========================================================
+24. REQUIRED USER INTERACTION
+========================================================
+
+The completed application must let a user:
+
+1. Open the dashboard.
+2. See five simulated IPv6 devices.
+3. Start and stop monitoring.
+4. Generate normal traffic.
+5. Simulate a rogue Router Advertisement.
+6. Simulate abnormal NDP traffic.
+7. Rotate temporary IPv6 addresses.
+8. View detected security alerts.
+9. View the reason for each alert.
+10. View active and expired pseudonyms.
+11. View active and expired sessions.
+12. Test session expiration.
+13. Test pseudonym expiration.
+14. Switch between simulated tenants.
+15. Verify tenant isolation.
+16. View network traffic charts.
+17. Run the evaluation suite.
+18. View measured detection metrics.
+19. View false-positive metrics.
+20. Reset the demonstration environment.
+
+Each operation must return clear feedback to the user.
+
+========================================================
+25. ACCEPTANCE CRITERIA
+========================================================
+
+The implementation is considered ready for demonstration
+only when the following conditions have been verified:
+
+A. The Flask backend starts successfully.
+
+B. The React frontend starts successfully.
+
+C. The frontend can communicate with the backend.
+
+D. Five simulated devices are initialised.
+
+E. Legitimate RA messages are not automatically treated
+   as attacks.
+
+F. An unauthorised simulated RA triggers the configured
+   detection rule.
+
+G. An excessive simulated NDP rate triggers the configured
+   anomaly rule.
+
+H. Normal NDP traffic does not unnecessarily trigger
+   alerts under the test configuration.
+
+I. Temporary IPv6 address rotation works.
+
+J. Address rotation alone does not trigger an attack alert.
+
+K. Pseudonyms expire as configured.
+
+L. Expired pseudonyms are rejected for new events.
+
+M. Expired sessions are rejected.
+
+N. Revoked sessions cannot be reused.
+
+O. Tenant data is isolated by the backend.
+
+P. Evaluation metrics are calculated from actual labelled
+   test cases.
+
+Q. The dashboard displays the API results correctly.
+
+R. Automated tests run successfully.
+
+S. The README contains working setup instructions.
+
+T. No physical IoT hardware is needed for the core demo.
+
+U. The system distinguishes simulated monitoring from
+   actual network packet capture.
+
+V. No claims of measured accuracy are made without test
+   evidence.
+
+========================================================
+26. FINAL OUTPUT REQUIRED FROM GOOGLE AI STUDIO
+========================================================
+
+Generate the entire PrivacyGuard IPv6 project.
+
+First, provide a concise architecture overview.
+
+Second, create every required source file in the correct
+folder structure.
+
+Third, provide all dependency files and configuration.
+
+Fourth, provide the complete React frontend.
+
+Fifth, provide the complete Flask backend.
+
+Sixth, provide the complete IPv6 device simulator.
+
+Seventh, implement both attack-detection mechanisms.
+
+Eighth, implement pseudonym generation and expiration.
+
+Ninth, implement short-lived session validation.
+
+Tenth, implement tenant isolation.
+
+Eleventh, implement analytics and evaluation.
+
+Twelfth, implement the automated tests.
+
+Thirteenth, provide the README and documentation.
+
+Fourteenth, provide exact Windows installation commands.
+
+Fifteenth, provide troubleshooting instructions.
+
+Sixteenth, provide a complete hackathon demonstration
+workflow.
+
+Seventeenth, review the generated project for missing
+imports, mismatched API routes, incomplete functions,
+incorrect dependencies and obvious runtime errors.
+
+Eighteenth, explain how to verify the acceptance criteria.
+
+IMPORTANT OUTPUT INSTRUCTION:
+
+If you can create or export a complete multi-file project,
+generate the files and package the project into a ZIP file.
+
+If you cannot create a ZIP file directly, generate the
+project in manageable batches while preserving the exact
+folder structure.
+
+For every file, clearly display its relative path followed
+by its complete contents.
+
+Do not truncate files silently.
+
+If the response limit prevents generating every file at
+once, state exactly which files have been completed and
+which files remain. Continue from the first missing file
+in subsequent responses without replacing or duplicating
+already completed files.
+
+Do not claim that the project has been executed or tested
+unless you actually executed it.
+
+The final result must be a complete, locally runnable
+software project suitable for demonstrating the AIORI 3
+Hackathon PS-007 problem statement.
+
+========================================================
+END OF PROMPT
+========================================================
